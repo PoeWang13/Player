@@ -28,25 +28,6 @@ public class State_Walling_Up : State
     }
     #endregion
 
-    #region Dropping
-    public void Dropping()
-    {
-        MyControllerManager.SetState(StateType.Falling);
-        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
-        if (state_Falling is not null)
-        {
-            if (transform.eulerAngles.y == 0)
-            {
-                state_Falling.SetFalling(-1);
-            }
-            else
-            {
-                state_Falling.SetFalling(1);
-            }
-        }
-    }
-    #endregion
-
     #region State
     public override void SetState()
     {
@@ -84,30 +65,49 @@ public class State_Walling_Up : State
                 JumpCoolDown();
                 SetDirection(MyDirection * myJumpSpeed);
             }
+            //else
+            //{
+            //    if (Input.GetKeyUp(KeyCode.Space))
+            //    {
+            //        // Jump yapacak
+            //        Jump();
+            //    }
+            //    if (Input.GetKeyUp(KeyCode.V))
+            //    {
+            //        // Dash yapacak
+            //        Dash();
+            //    }
+            //    else if (Input.GetKeyUp(KeyCode.B))
+            //    {
+            //        // Bomb atacak
+            //        MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            //    }
+            //}
+        }
+    }
+    #endregion
+
+    #region Dropping
+    public override void Dropping()
+    {
+        MyControllerManager.SetState(StateType.Falling);
+        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+        if (state_Falling is not null)
+        {
+            if (transform.eulerAngles.y == 0)
+            {
+                state_Falling.SetFalling(-1);
+            }
             else
             {
-                if (Input.GetKeyUp(KeyCode.Space))
-                {
-                    // Jump yapacak
-                    Jump();
-                }
-                if (Input.GetKeyUp(KeyCode.V))
-                {
-                    // Dash yapacak
-                    Dash();
-                }
-                else if (Input.GetKeyUp(KeyCode.B))
-                {
-                    // Bomb atacak
-                    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
-                }
+                state_Falling.SetFalling(1);
             }
         }
     }
     #endregion
 
     #region Dash
-    public void Dash()
+    public override void Dash()
     {
         SetIsDash(true);
         SetCanControl(false);
@@ -122,7 +122,7 @@ public class State_Walling_Up : State
     #endregion
 
     #region Jump
-    public void Jump()
+    public override void Jump()
     {
         isJump = true;
         myJumpTimeNext = myJumpTime;

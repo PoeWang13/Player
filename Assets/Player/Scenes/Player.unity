@@ -18981,7 +18981,6 @@ MonoBehaviour:
   myStateType: 8
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 7
   myDashTime: 1
   myDashSpeed: 5
   mySpaceSpeed: 1
@@ -19002,7 +19001,6 @@ MonoBehaviour:
   myStateType: 7
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 6
   myDashTime: 1
   myDashSpeed: 5
   mySpaceSpeed: 1
@@ -19023,7 +19021,6 @@ MonoBehaviour:
   myStateType: 10
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 9
   myDashTime: 1
   myDashSpeed: 5
   myJumpTime: 1
@@ -19047,7 +19044,6 @@ MonoBehaviour:
   myStateType: 9
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 8
   myDashTime: 1
   myDashSpeed: 5
   myJumpSpeed: 5
@@ -19069,7 +19065,6 @@ MonoBehaviour:
   myStateType: 6
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 5
   myDashTime: 1
   myDashSpeed: 5
   myRopingSpeed: 1
@@ -19090,7 +19085,6 @@ MonoBehaviour:
   myStateType: 5
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 4
   myDashTime: 1
   myDashSpeed: 5
   myRopingSpeed: 1
@@ -19111,10 +19105,8 @@ MonoBehaviour:
   myStateType: 2
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 2
   myDashTime: 1
   myDashSpeed: 5
-  grondMask: 0
   myMaxJumping: 2
   myJumpPowerX: 5
   myJumpPowerY: 5
@@ -19135,7 +19127,6 @@ MonoBehaviour:
   myStateType: 1
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 1
   myDashTime: 1
   myDashSpeed: 5
   maxSlope: 45
@@ -19157,7 +19148,6 @@ MonoBehaviour:
   myStateType: 0
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 0
   myDashTime: 1
   myDashSpeed: 5
   maxSlope: 45
@@ -19176,13 +19166,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myState: {fileID: 0}
   allStates: []
-  myFireTime: 1
+  myBombLimit: 50
+  myFireTime: 0.5
+  myBombTime: 0.5
   myBomb: {fileID: 3264916453419236113, guid: 2dcec6676fedcb84aa3ec498012aa6cc, type: 3}
   myKnife: {fileID: 1894858626661774700, guid: 22161dc9c73d3d44ab14e8c9c7ba6d45, type: 3}
   myBullet: {fileID: 5756744689329546971, guid: aa520deecb8ce1b458923141a8567cab, type: 3}
   myBombPoint: {fileID: 1239934239}
   myBulletPoint: {fileID: 1063162057}
-  changedState: 10
+  allEnemiesLayerName:
+  - Enemy
 --- !u!114 &1496978047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19200,7 +19193,6 @@ MonoBehaviour:
   myStateType: 3
   mySize: {x: 1, y: 3}
   myOffSet: {x: 0, y: 1.5}
-  animationLayer: 3
   myDashTime: 1
   myDashSpeed: 5
 --- !u!114 &1496978048
@@ -19220,7 +19212,6 @@ MonoBehaviour:
   myStateType: 4
   mySize: {x: 1, y: 1.5}
   myOffSet: {x: 0, y: 3}
-  animationLayer: 0
   myDashTime: 1
   myDashSpeed: 5
   playerView: {fileID: 867614846}

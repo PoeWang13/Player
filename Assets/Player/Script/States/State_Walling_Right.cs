@@ -27,25 +27,6 @@ public class State_Walling_Right : State
     }
     #endregion
 
-    #region Dropping
-    public void Dropping()
-    {
-        MyControllerManager.SetState(StateType.Falling);
-        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
-        if (state_Falling is not null)
-        {
-            if (isWallRightSide)
-            {
-                state_Falling.SetFalling(-1);
-            }
-            else
-            {
-                state_Falling.SetFalling(1);
-            }
-        }
-    }
-    #endregion
-
     #region State
     public override void SetState()
     {
@@ -86,77 +67,154 @@ public class State_Walling_Right : State
             }
             SetDirection(new Vector2(0, DirY * myWallingSpeed));
             MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(DirY * myWallingSpeed));
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                if (isWallRightSide) // Duvar sağda
-                {
-                    if (transform.eulerAngles.y == 0) // Adam sağa bakıyır
-                    {
-                        jumpSpeed = -1;
-                        MyControllerManager.SetState(StateType.Falling);
+            //if (Input.GetKeyUp(KeyCode.Space))
+            //{
+            //    if (isWallRightSide) // Duvar sağda
+            //    {
+            //        if (transform.eulerAngles.y == 0) // Adam sağa bakıyır
+            //        {
+            //            jumpSpeed = -1;
+            //            MyControllerManager.SetState(StateType.Falling);
 
-                        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
-                        if (state_Falling is not null)
-                        {
-                            state_Falling.SetFalling(-1);
-                        }
-                        return;
-                    }
-                    else                             // Adam sola bakıyır
-                    {
-                        jumpSpeed = myJumpSpeed;
-                        if (DirX == -1)    // Adam sola yönleniyor
-                        {
-                            jumpSpeed *= 2;
-                        }
-                    }
-                }
-                else // Duvar solda
+            //            State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+            //            if (state_Falling is not null)
+            //            {
+            //                state_Falling.SetFalling(-1);
+            //            }
+            //            return;
+            //        }
+            //        else                             // Adam sola bakıyır
+            //        {
+            //            jumpSpeed = myJumpSpeed;
+            //            if (DirX == -1)    // Adam sola yönleniyor
+            //            {
+            //                jumpSpeed *= 2;
+            //            }
+            //        }
+            //    }
+            //    else // Duvar solda
+            //    {
+            //        if (transform.eulerAngles.y == 0) // Adam sağa bakıyır
+            //        {
+            //            jumpSpeed = myJumpSpeed;
+            //            if (DirX == 1)    // Adam sağa yönleniyor
+            //            {
+            //                jumpSpeed *= 2;
+            //            }
+            //        }
+            //        else                             // Adam sola bakıyır
+            //        {
+            //            jumpSpeed = -1;
+            //            MyControllerManager.SetState(StateType.Falling);
+            //            State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+            //            if (state_Falling is not null)
+            //            {
+            //                state_Falling.SetFalling(1);
+            //            }
+            //            return;
+            //        }
+            //    }
+            //    // Jumpla
+            //    MyControllerManager.SetState(StateType.Jumping);
+            //    State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            //    if (state_Jumping is not null)
+            //    {
+            //        state_Jumping.WallingRightJump(jumpSpeed);
+            //    }
+            //}
+            //else if (Input.GetKeyUp(KeyCode.V))
+            //{
+            //    // Dash yapacak
+            //    Dash();
+            //}
+            //else if (Input.GetKeyUp(KeyCode.B))
+            //{
+            //    // Bomb atacak
+            //    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            //}
+        }
+    }
+    #endregion
+
+    #region Jump
+    public override void Jump()
+    {
+        if (isWallRightSide) // Duvar sağda
+        {
+            if (transform.eulerAngles.y == 0) // Adam sağa bakıyır
+            {
+                jumpSpeed = -1;
+                MyControllerManager.SetState(StateType.Falling);
+
+                State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+                if (state_Falling is not null)
                 {
-                    if (transform.eulerAngles.y == 0) // Adam sağa bakıyır
-                    {
-                        jumpSpeed = myJumpSpeed;
-                        if (DirX == 1)    // Adam sağa yönleniyor
-                        {
-                            jumpSpeed *= 2;
-                        }
-                    }
-                    else                             // Adam sola bakıyır
-                    {
-                        jumpSpeed = -1;
-                        MyControllerManager.SetState(StateType.Falling);
-                        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
-                        if (state_Falling is not null)
-                        {
-                            state_Falling.SetFalling(1);
-                        }
-                        return;
-                    }
+                    state_Falling.SetFalling(-1);
                 }
-                // Jumpla
-                MyControllerManager.SetState(StateType.Jumping);
-                State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
-                if (state_Jumping is not null)
+                return;
+            }
+            else                             // Adam sola bakıyır
+            {
+                jumpSpeed = myJumpSpeed;
+                if (DirX == -1)    // Adam sola yönleniyor
                 {
-                    state_Jumping.WallingRightJump(jumpSpeed);
+                    jumpSpeed *= 2;
                 }
             }
-            else if (Input.GetKeyUp(KeyCode.V))
+        }
+        else // Duvar solda
+        {
+            if (transform.eulerAngles.y == 0) // Adam sağa bakıyır
             {
-                // Dash yapacak
-                Dash();
+                jumpSpeed = myJumpSpeed;
+                if (DirX == 1)    // Adam sağa yönleniyor
+                {
+                    jumpSpeed *= 2;
+                }
             }
-            else if (Input.GetKeyUp(KeyCode.B))
+            else                             // Adam sola bakıyır
             {
-                // Bomb atacak
-                MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+                jumpSpeed = -1;
+                MyControllerManager.SetState(StateType.Falling);
+                State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+                if (state_Falling is not null)
+                {
+                    state_Falling.SetFalling(1);
+                }
+                return;
+            }
+        }
+        // Jumpla
+        MyControllerManager.SetState(StateType.Jumping);
+        State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+        if (state_Jumping is not null)
+        {
+            state_Jumping.WallingRightJump(jumpSpeed);
+        }
+    }
+    #endregion
+
+    #region Dropping
+    public override void Dropping()
+    {
+        MyControllerManager.SetState(StateType.Falling);
+        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+        if (state_Falling is not null)
+        {
+            if (isWallRightSide)
+            {
+                state_Falling.SetFalling(-1);
+            }
+            else
+            {
+                state_Falling.SetFalling(1);
             }
         }
     }
     #endregion
 
     #region Dash
-    public void Dash()
+    public override void Dash()
     {
         SetIsDash(true);
         SetCanControl(false);

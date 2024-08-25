@@ -38,25 +38,6 @@ public class State_Roping_Right : State
     }
     #endregion
 
-    #region Dropping
-    public void Dropping()
-    {
-        MyControllerManager.SetState(StateType.Falling);
-        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
-        if (state_Falling is not null)
-        {
-            if (transform.eulerAngles.y == 0)
-            {
-                state_Falling.SetFalling(1);
-            }
-            else
-            {
-                state_Falling.SetFalling(-1);
-            }
-        }
-    }
-    #endregion
-
     #region State
     public override void SetState()
     {
@@ -106,17 +87,46 @@ public class State_Roping_Right : State
         }
         SetDirection(new Vector2(DirX * myRopingSpeed, 0));
         MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(DirX * myRopingSpeed));
-        if (Input.GetKeyDown(KeyCode.Space))
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    // Jumpa geç
+        //    // İpin etrafında takla atlayacak - Sunset Riders daki gibi
+        //    TaklaDurum(true);
+        //    MyControllerManager.SetTriggerAnimatiorLeg("Dash");
+        //}
+        //else if (Input.GetKeyUp(KeyCode.B))
+        //{
+        //    // Bomb atacak
+        //    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+        //}
+    }
+    #endregion
+
+    #region Jump
+    public override void Jump()
+    {
+        // Jumpa geç
+        // İpin etrafında takla atlayacak - Sunset Riders daki gibi
+        TaklaDurum(true);
+        MyControllerManager.SetTriggerAnimatiorLeg("Dash");
+    }
+    #endregion
+
+    #region Dropping
+    public override void Dropping()
+    {
+        MyControllerManager.SetState(StateType.Falling);
+        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+        if (state_Falling is not null)
         {
-            // Jumpa geç
-            // İpin etrafında takla atlayacak - Sunset Riders daki gibi
-            TaklaDurum(true);
-            MyControllerManager.SetTriggerAnimatiorLeg("Dash");
-        }
-        else if (Input.GetKeyUp(KeyCode.B))
-        {
-            // Bomb atacak
-            MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            if (transform.eulerAngles.y == 0)
+            {
+                state_Falling.SetFalling(1);
+            }
+            else
+            {
+                state_Falling.SetFalling(-1);
+            }
         }
     }
     #endregion

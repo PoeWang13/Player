@@ -2,8 +2,6 @@
 
 public class State_Jumping : State
 {
-    [HideInInspector] public int grondMask;
-
     [Header("Jump")]
     [SerializeField] private int myMaxJumping = 1;
     [SerializeField] private float myJumpPowerX = 5;
@@ -20,10 +18,6 @@ public class State_Jumping : State
     private Elevator myElevator;
 
     #region Unity
-    public override void OnAwake()
-    {
-        grondMask = LayerMask.GetMask("Ground");
-    }
     private void FixedUpdate()
     {
         if (!isActive)
@@ -40,9 +34,9 @@ public class State_Jumping : State
             myJumpTime += Time.deltaTime;
             if (myJumpTime > 0.5f)
             {
-                bool isGroundLeft = Physics2D.Raycast(transform.position + Vector3.left * 0.45f, Vector2.down, 0.1f, grondMask);
-                bool isGroundCenter = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, grondMask);
-                bool isGroundRight = Physics2D.Raycast(transform.position + Vector3.right * 0.45f, Vector2.down, 0.1f, grondMask);
+                bool isGroundLeft = Physics2D.Raycast(transform.position + Vector3.left * 0.45f, Vector2.down, 0.1f, MyControllerManager.GrondMask);
+                bool isGroundCenter = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, MyControllerManager.GrondMask);
+                bool isGroundRight = Physics2D.Raycast(transform.position + Vector3.right * 0.45f, Vector2.down, 0.1f, MyControllerManager.GrondMask);
                 JumpReset(isGroundLeft, isGroundCenter, isGroundRight);
             }
         }
@@ -109,29 +103,29 @@ public class State_Jumping : State
             }
             SetDirection(new Vector2(DirX * jumpPowerX, MyRigidbody.velocity.y));
             MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(DirX * jumpPowerX));
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (myMaxJumping > myJumpCount)
-                {
-                    JumpingJump();
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.V))
-            {
-                // Dash yapacak
-                Dash();
-            }
-            else if (Input.GetKeyUp(KeyCode.B))
-            {
-                // Bomb atacak
-                MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
-            }
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    if (myMaxJumping > myJumpCount)
+            //    {
+            //        JumpingJump();
+            //    }
+            //}
+            //else if (Input.GetKeyDown(KeyCode.V))
+            //{
+            //    // Dash yapacak
+            //    Dash();
+            //}
+            //else if (Input.GetKeyUp(KeyCode.B))
+            //{
+            //    // Bomb atacak
+            //    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            //}
         }
     }
     #endregion
 
     #region Dash
-    public void Dash()
+    public override void Dash()
     {
         SetIsDash(true);
         SetCanControl(false);
@@ -202,12 +196,16 @@ public class State_Jumping : State
         }
         MyControllerManager.MyRigidbody.AddForce(MyDirection, ForceMode2D.Impulse);
     }
-    public void JumpingJump()
+    public override void Jump()
     {
         if (myMaxJumping <= myJumpCount)
         {
             return;
         }
+        JumpingJump();
+    }
+    public void JumpingJump()
+    {
         myJumpCount++;
         myJumped = true;
         jumpPowerX = myJumpPowerX;
@@ -270,7 +268,7 @@ public class State_Jumping : State
         SetDirection(Vector2.zero);
         MyRigidbody.velocity = MyDirection;
     }
-    public void Dropping()
+    public override void Dropping()
     {
         myJumped = true;
         myJumpTime = 0;

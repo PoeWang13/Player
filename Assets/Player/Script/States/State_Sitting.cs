@@ -8,8 +8,6 @@ public class State_Sitting : State
     [Header("Sitting")]
     [SerializeField] private float mySittingSpeed = 1;
 
-    private int grondMask;
-
     private float moveX;
     private float moveY;
     private float slopeAngle;
@@ -18,10 +16,6 @@ public class State_Sitting : State
     private Elevator myElevator;
 
     #region Unity
-    public override void OnAwake()
-    {
-        grondMask = LayerMask.GetMask("Ground");
-    }
     private void FixedUpdate()
     {
         if (!isActive)
@@ -89,10 +83,10 @@ public class State_Sitting : State
             {
                 MyControllerManager.SetState(StateType.Walking);
             }
-            RaycastHit2D groundLeft = Physics2D.Raycast(transform.position + Vector3.left * 0.495f, Vector2.down, 0.1f, grondMask);
+            RaycastHit2D groundLeft = Physics2D.Raycast(transform.position + Vector3.left * 0.495f, Vector2.down, 0.1f, MyControllerManager.GrondMask);
             Debug.DrawLine(transform.position + Vector3.left * 0.495f, transform.position + Vector3.left * 0.495f + Vector3.down * 0.1f, Color.blue);
-            RaycastHit2D groundCenter = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, grondMask);
-            RaycastHit2D groundRight = Physics2D.Raycast(transform.position + Vector3.right * 0.495f, Vector2.down, 0.1f, grondMask);
+            RaycastHit2D groundCenter = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, MyControllerManager.GrondMask);
+            RaycastHit2D groundRight = Physics2D.Raycast(transform.position + Vector3.right * 0.495f, Vector2.down, 0.1f, MyControllerManager.GrondMask);
             Debug.DrawLine(transform.position + Vector3.right * 0.495f, transform.position + Vector3.right * 0.495f + Vector3.down * 0.1f, Color.red);
 
             moveX = DirX;
@@ -189,27 +183,27 @@ public class State_Sitting : State
                 }
             }
             MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(moveX));
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                // Jumpa geç
-                MyControllerManager.SetState(StateType.Jumping);
-                // Jumpla
-                State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
-                if (state_Jumping is not null)
-                {
-                    state_Jumping.SittingJump();
-                }
-            }
-            else if (Input.GetKeyUp(KeyCode.V))
-            {
-                // Slide yapacak
-                Dash();
-            }
-            else if (Input.GetKeyUp(KeyCode.B))
-            {
-                // Bomb atacak
-                MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
-            }
+            //if (Input.GetKeyUp(KeyCode.Space))
+            //{
+            //    // Jumpa geç
+            //    MyControllerManager.SetState(StateType.Jumping);
+            //    // Jumpla
+            //    State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            //    if (state_Jumping is not null)
+            //    {
+            //        state_Jumping.SittingJump();
+            //    }
+            //}
+            //else if (Input.GetKeyUp(KeyCode.V))
+            //{
+            //    // Slide yapacak
+            //    Dash();
+            //}
+            //else if (Input.GetKeyUp(KeyCode.B))
+            //{
+            //    // Bomb atacak
+            //    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            //}
         }
     }
     private void SetSlopeSameDirection(Vector2 normal)
@@ -250,8 +244,25 @@ public class State_Sitting : State
     }
     #endregion
 
+    #region Jump
+    public override void Jump()
+    {
+        if (slopeAngle <= maxSlope)
+        {
+            // Jumpa geç
+            MyControllerManager.SetState(StateType.Jumping);
+            // Jumpla
+            State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            if (state_Jumping is not null)
+            {
+                state_Jumping.SittingJump();
+            }
+        }
+    }
+    #endregion
+
     #region Dash
-    public void Dash()
+    public override void Dash()
     {
         SetIsDash(true);
         SetCanControl(false);
@@ -274,7 +285,7 @@ public class State_Sitting : State
     #endregion
 
     #region Dropping
-    public void Dropping()
+    public override void Dropping()
     {
         MyControllerManager.SetState(StateType.Falling);
         State_Falling state_Falling = MyControllerManager.myState as State_Falling;

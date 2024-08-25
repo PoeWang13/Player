@@ -45,7 +45,10 @@ public class Controller_Manager : MonoBehaviour
     [HideInInspector] public State myState;
     [HideInInspector] public List<AllState> allStates = new List<AllState>();
 
+    [SerializeField] private int myBombLimit = 1;
+
     [SerializeField] private float myFireTime = 1;
+    [SerializeField] private float myBombTime = 1;
 
     [SerializeField] private Bomb myBomb;
     [SerializeField] private Knife myKnife;
@@ -53,16 +56,24 @@ public class Controller_Manager : MonoBehaviour
     [SerializeField] private Transform myBombPoint;
     [SerializeField] private Transform myBulletPoint;
 
+    [SerializeField] private List<string> allEnemiesLayerName = new List<string>();
+
+    private int grondMask;
+    private int enemyMask;
     private Transform myPlayerView;
     private Animator myAnimatorLeg;
     private Animator myAnimatorBody;
     private Rigidbody2D myRigidbody;
     private BoxCollider2D myBoxCollider;
 
+    public int MyBombLimit { get { return myBombLimit; } }
+    public int GrondMask { get { return grondMask; } }
+    public int EnemyMask { get { return enemyMask; } }
+    public float MyFireTime { get { return myFireTime; } }
+    public float MyBombTime { get { return myBombTime; } }
     public Bullet MyBullet { get { return myBullet; } }
     public Bomb MyBomb { get { return myBomb; } }
     public Knife MyKnife { get { return myKnife; } }
-    public float MyFireTime { get { return myFireTime; } }
     public Transform MyBulletPoint { get { return myBulletPoint; } }
     public Transform MyBombPoint { get { return myBombPoint; } }
     public Transform MyPlayerView { get { return myPlayerView; } }
@@ -71,6 +82,8 @@ public class Controller_Manager : MonoBehaviour
     #region Unity
     private void Awake()
     {
+        grondMask = LayerMask.GetMask("Ground");
+        enemyMask = LayerMask.GetMask(allEnemiesLayerName.ToArray());
         myPlayerView = transform.Find("PlayerView");
         myAnimatorLeg = myPlayerView.Find("PlayerLegView").GetComponent<Animator>();
         myAnimatorBody = myPlayerView.Find("PlayerBodyView").GetComponent<Animator>();
@@ -225,6 +238,57 @@ public class Controller_Manager : MonoBehaviour
         Knife knife = Instantiate(MyKnife, exitPoint, Quaternion.identity);
         knife.SetKnife(owner, enemy, angle);
         SetTriggerAnimatiorBody("Knife");
+    }
+    #endregion
+
+    #region Bomb
+    public virtual void Bomb()
+    {
+        if (myBombLimit > 0)
+        {
+            // Bomb atacak
+            ThrowBomb("Player", "Enemy", MyBombPoint.position);
+            myBombLimit--;
+        }
+    }
+    #endregion
+
+    #region Fire
+    public virtual void FireUp()
+    {
+        // Ateş etmeyi durdur
+        SetBoolAnimatiorBody("Fire", false);
+    }
+    public virtual void FireDown()
+    {
+        SetBoolAnimatiorBody("Fire", true);
+    }
+    public virtual void Fire()
+    {
+        int direcX = myState.DirX;
+        // Kurşunu gönder
+        if (myState.DirY == 0)
+        {
+            if (MyPlayerView.eulerAngles.y == 0)
+            {
+                direcX = 1;
+            }
+            else
+            {
+                direcX = -1;
+            }
+        }
+        Debug.DrawLine(transform.position + Vector3.up * 2 + Vector3.right * 0.495f, transform.position + Vector3.up * 2 + Vector3.right * 2 * direcX, Color.green);
+        RaycastHit2D enemyHit = Physics2D.Raycast(transform.position + Vector3.up * 2 + Vector3.right * 0.495f, Vector2.right * direcX, 1.0f, enemyMask);
+        if (enemyHit)
+        {
+            // Önünde düşman var bıçakla
+            CreateKnife("Player", "Enemy", MyBombPoint.position, transform.eulerAngles.y);
+        }
+        else
+        {
+            CreateBullet("Player", "Enemy", MyBulletPoint.position, new Vector2(direcX, myState.DirY));
+        }
     }
     #endregion
 }

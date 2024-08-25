@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class State_Roping_Up : State
 {
@@ -18,25 +17,6 @@ public class State_Roping_Up : State
             return;
         }
         MyRigidbody.velocity = MyDirection;
-    }
-    #endregion
-
-    #region Dropping
-    public void Dropping()
-    {
-        MyControllerManager.SetState(StateType.Falling);
-        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
-        if (state_Falling is not null)
-        {
-            if (transform.eulerAngles.y == 0)
-            {
-                state_Falling.SetFalling(1);
-            }
-            else
-            {
-                state_Falling.SetFalling(-1);
-            }
-        }
     }
     #endregion
 
@@ -81,33 +61,66 @@ public class State_Roping_Up : State
             }
             SetDirection(new Vector2(0, DirY * myRopingSpeed));
             MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(DirY * myRopingSpeed));
-            if (Input.GetKeyUp(KeyCode.Space))
+            //if (Input.GetKeyUp(KeyCode.Space))
+            //{
+            //    if (DirX != 0)
+            //    {
+            //        // Jumpa geç
+            //        MyControllerManager.SetState(StateType.Jumping);
+            //        // Jumpla
+            //        State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            //        state_Jumping.RopingUpJump();
+            //    }
+            //}
+            //else if (Input.GetKeyUp(KeyCode.V))
+            //{
+            //    // Dash yapacak
+            //    Dash();
+            //}
+            //else if (Input.GetKeyUp(KeyCode.B))
+            //{
+            //    // Bomb atacak
+            //    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            //}
+        }
+    }
+    #endregion
+
+    #region Jump
+    public override void Jump()
+    {
+        if (DirX != 0)
+        {
+            // Jumpa geç
+            MyControllerManager.SetState(StateType.Jumping);
+            // Jumpla
+            State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            state_Jumping.RopingUpJump();
+        }
+    }
+    #endregion
+
+    #region Dropping
+    public override void Dropping()
+    {
+        MyControllerManager.SetState(StateType.Falling);
+        State_Falling state_Falling = MyControllerManager.myState as State_Falling;
+        if (state_Falling is not null)
+        {
+            if (transform.eulerAngles.y == 0)
             {
-                if (DirX != 0)
-                {
-                    // Jumpa geç
-                    MyControllerManager.SetState(StateType.Jumping);
-                    // Jumpla
-                    State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
-                    state_Jumping.RopingUpJump();
-                }
+                state_Falling.SetFalling(1);
             }
-            else if (Input.GetKeyUp(KeyCode.V))
+            else
             {
-                // Dash yapacak
-                Dash();
-            }
-            else if (Input.GetKeyUp(KeyCode.B))
-            {
-                // Bomb atacak
-                MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+                state_Falling.SetFalling(-1);
             }
         }
     }
     #endregion
 
     #region Dash
-    public void Dash()
+    public override void Dash()
     {
         SetIsDash(true);
         SetCanControl(false);

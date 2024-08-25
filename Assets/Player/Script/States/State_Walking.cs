@@ -8,9 +8,6 @@ public class State_Walking : State
     [Header("Walking")]
     [SerializeField] private float myWalkingSpeed = 5;
 
-    private int grondMask;
-    private int enemyMask;
-
     private float moveX;
     private float moveY;
     private float slopeAngle;
@@ -19,11 +16,6 @@ public class State_Walking : State
     private Elevator myElevator;
 
     #region Unity
-    public override void OnAwake()
-    {
-        grondMask = LayerMask.GetMask("Ground");
-        enemyMask = LayerMask.GetMask("Enemy");
-    }
     private void FixedUpdate()
     {
         if (!isActive)
@@ -91,10 +83,10 @@ public class State_Walking : State
             {
                 MyControllerManager.SetState(StateType.Sitting);
             }
-            RaycastHit2D groundLeft = Physics2D.Raycast(transform.position + Vector3.left * 0.495f, Vector2.down, 0.1f, grondMask);
+            RaycastHit2D groundLeft = Physics2D.Raycast(transform.position + Vector3.left * 0.495f, Vector2.down, 0.1f, MyControllerManager.GrondMask);
             Debug.DrawLine(transform.position + Vector3.left * 0.495f, transform.position + Vector3.left * 0.495f + Vector3.down * 0.1f, Color.blue);
-            RaycastHit2D groundCenter = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, grondMask);
-            RaycastHit2D groundRight = Physics2D.Raycast(transform.position + Vector3.right * 0.495f, Vector2.down, 0.1f, grondMask);
+            RaycastHit2D groundCenter = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, MyControllerManager.GrondMask);
+            RaycastHit2D groundRight = Physics2D.Raycast(transform.position + Vector3.right * 0.495f, Vector2.down, 0.1f, MyControllerManager.GrondMask);
             Debug.DrawLine(transform.position + Vector3.right * 0.495f, transform.position + Vector3.right * 0.495f + Vector3.down * 0.1f, Color.red);
 
             moveX = DirX * myWalkingSpeed;
@@ -201,72 +193,72 @@ public class State_Walking : State
             MyControllerManager.SetFloatAnimatiorBody("DirX", DirX);
             MyControllerManager.SetFloatAnimatiorBody("DirY", DirY);
             MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(DirX));
-            if (Input.GetKeyUp(KeyCode.Space) && slopeAngle <= maxSlope)
-            {
-                // Jumpa geç
-                MyControllerManager.SetState(StateType.Jumping);
-                // Jumpla
-                State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
-                if (state_Jumping is not null)
-                {
-                    state_Jumping.WalkingJump();
-                }
-            }
-            else if (Input.GetKeyUp(KeyCode.V))
-            {
-                // Dash yapacak
-                Dash();
-            }
-            if (Input.GetKeyUp(KeyCode.B))
-            {
-                // Bomb atacak
-                MyControllerManager.ThrowBomb("Player", "Enemy", MyControllerManager.MyBombPoint.position);
-            }
-            else
-            {
-                if (Input.GetKeyUp(KeyCode.F))
-                {
-                    // Ateş etmeyi durdur
-                    MyControllerManager.SetBoolAnimatiorBody("Fire", false);
-                }
-                else if (Input.GetKeyDown(KeyCode.F))
-                {
-                    // Ateş etmeye başla
-                    MyControllerManager.SetBoolAnimatiorBody("Fire", true);
-                }
-                else if (Input.GetKey(KeyCode.F))
-                {
-                    myFireTimeNext += Time.deltaTime;
-                    if (myFireTimeNext >= MyControllerManager.MyFireTime)
-                    {
-                        myFireTimeNext = 0;
-                        int direcX = DirX;
-                        // Kurşunu gönder
-                        if (DirY == 0)
-                        {
-                            if (MyControllerManager.MyPlayerView.eulerAngles.y == 0)
-                            {
-                                direcX = 1;
-                            }
-                            else
-                            {
-                                direcX = -1;
-                            }
-                        }
-                        Debug.DrawLine(transform.position + Vector3.up * 2 + Vector3.right * 0.495f, transform.position + Vector3.up * 2 + Vector3.right * 2 * direcX, Color.green);
-                        RaycastHit2D enemyHit = Physics2D.Raycast(transform.position + Vector3.up * 2 + Vector3.right * 0.495f, Vector2.right * direcX, 1.0f, enemyMask);
-                        if (enemyHit)
-                        {
-                            // Önünde düşman var bıçakla
-                            MyControllerManager.CreateKnife("Player", "Enemy", MyControllerManager.MyBombPoint.position, transform.eulerAngles.y);
-                        }
-                        else
-                        {
-                            MyControllerManager.CreateBullet("Player", "Enemy", MyControllerManager.MyBulletPoint.position, new Vector2(direcX, DirY));
-                        }
-                    }
-                }
-            }
+            //if (Input.GetKeyUp(KeyCode.Space) && slopeAngle <= maxSlope)
+            //{
+            //    // Jumpa geç
+            //    MyControllerManager.SetState(StateType.Jumping);
+            //    // Jumpla
+            //    State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            //    if (state_Jumping is not null)
+            //    {
+            //        state_Jumping.WalkingJump();
+            //    }
+            //}
+            //else if (Input.GetKeyUp(KeyCode.V))
+            //{
+            //    // Dash yapacak
+            //    Dash();
+            //}
+            //if (Input.GetKeyUp(KeyCode.B))
+            //{
+            //    // Bomb atacak
+            //    MyControllerManager.ThrowBomb("Player", "Enemy", MyControllerManager.MyBombPoint.position);
+            //}
+            //else
+            //{
+            //    if (Input.GetKeyUp(KeyCode.F))
+            //    {
+            //        // Ateş etmeyi durdur
+            //        MyControllerManager.SetBoolAnimatiorBody("Fire", false);
+            //    }
+            //    else if (Input.GetKeyDown(KeyCode.F))
+            //    {
+            //        // Ateş etmeye başla
+            //        MyControllerManager.SetBoolAnimatiorBody("Fire", true);
+            //    }
+            //    else if (Input.GetKey(KeyCode.F))
+            //    {
+            //        myFireTimeNext += Time.deltaTime;
+            //        if (myFireTimeNext >= MyControllerManager.MyFireTime)
+            //        {
+            //            myFireTimeNext = 0;
+            //            int direcX = DirX;
+            //            // Kurşunu gönder
+            //            if (DirY == 0)
+            //            {
+            //                if (MyControllerManager.MyPlayerView.eulerAngles.y == 0)
+            //                {
+            //                    direcX = 1;
+            //                }
+            //                else
+            //                {
+            //                    direcX = -1;
+            //                }
+            //            }
+            //            Debug.DrawLine(transform.position + Vector3.up * 2 + Vector3.right * 0.495f, transform.position + Vector3.up * 2 + Vector3.right * 2 * direcX, Color.green);
+            //            RaycastHit2D enemyHit = Physics2D.Raycast(transform.position + Vector3.up * 2 + Vector3.right * 0.495f, Vector2.right * direcX, 1.0f, enemyMask);
+            //            if (enemyHit)
+            //            {
+            //                // Önünde düşman var bıçakla
+            //                MyControllerManager.CreateKnife("Player", "Enemy", MyControllerManager.MyBombPoint.position, transform.eulerAngles.y);
+            //            }
+            //            else
+            //            {
+            //                MyControllerManager.CreateBullet("Player", "Enemy", MyControllerManager.MyBulletPoint.position, new Vector2(direcX, DirY));
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
     private void SetSlopeSameDirection(Vector2 normal)
@@ -307,8 +299,25 @@ public class State_Walking : State
     }
     #endregion
 
+    #region Jump
+    public override void Jump()
+    {
+        if (slopeAngle <= maxSlope)
+        {
+            // Jumpa geç
+            MyControllerManager.SetState(StateType.Jumping);
+            // Jumpla
+            State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            if (state_Jumping is not null)
+            {
+                state_Jumping.WalkingJump();
+            }
+        }
+    }
+    #endregion
+
     #region Dash
-    public void Dash()
+    public override void Dash()
     {
         SetIsDash(true);
         SetCanControl(false);
@@ -331,7 +340,7 @@ public class State_Walking : State
     #endregion
 
     #region Dropping
-    public void Dropping()
+    public override void Dropping()
     {
         MyControllerManager.SetState(StateType.Falling);
         State_Falling state_Falling = MyControllerManager.myState as State_Falling;

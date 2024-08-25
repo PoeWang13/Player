@@ -47,22 +47,22 @@ public class State_Spacing_Right : State
                 return;
             }
             MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(DirY * mySpaceSpeed));
-            if (Input.GetKeyUp(KeyCode.V))
-            {
-                // Dash yapacak
-                Dash();
-            }
-            else if (Input.GetKeyUp(KeyCode.B))
-            {
-                // Bomb atacak
-                MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
-            }
+            //if (Input.GetKeyUp(KeyCode.V))
+            //{
+            //    // Dash yapacak
+            //    Dash();
+            //}
+            //else if (Input.GetKeyUp(KeyCode.B))
+            //{
+            //    // Bomb atacak
+            //    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            //}
         }
     }
     #endregion
 
     #region Dash
-    public void Dash()
+    public override void Dash()
     {
         SetIsDash(true);
         SetCanControl(false);

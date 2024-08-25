@@ -3,12 +3,12 @@
 public class Player_Controller : Controller_Manager
 {
     #region Context Menu
-    public StateType changedState;
-    [ContextMenu("State Change")]
-    private void StateChange()
-    {
-        SetState(changedState);
-    }
+    //public StateType changedState;
+    //[ContextMenu("State Change")]
+    //private void StateChange()
+    //{
+    //    SetState(changedState);
+    //}
     #endregion
     //private int directionCount;
 
@@ -27,6 +27,9 @@ public class Player_Controller : Controller_Manager
         get { return instance;}
     }
 
+    private float myFireTimeNext;
+    private float myBombTimeNext;
+
     #region Unity
     public override void OnStart()
     {
@@ -37,6 +40,51 @@ public class Player_Controller : Controller_Manager
         else
         {
             Destroy(gameObject);
+        }
+    }
+    private void Update()
+    {
+        myBombTimeNext += Time.deltaTime;
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            myState.Jump();
+        }
+        else if (Input.GetKeyUp(KeyCode.V))
+        {
+            // Dash yapacak
+            myState.Dash();
+        }
+        if (Input.GetKeyUp(KeyCode.B))
+        {
+            if (myBombTimeNext > MyBombTime)
+            {
+                // Bomb atacak
+                Bomb();
+                myBombTimeNext = 0;
+            }
+        }
+        else
+        {
+            if (Input.GetKeyUp(KeyCode.F))
+            {
+                // Fire etmeyi durdur
+                FireUp();
+            }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                // Ateş etmeye başla
+                FireDown();
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                myFireTimeNext += Time.deltaTime;
+                if (myFireTimeNext >= MyFireTime)
+                {
+                    // Ateş et
+                    myFireTimeNext = 0;
+                    Fire();
+                }
+            }
         }
     }
     #endregion

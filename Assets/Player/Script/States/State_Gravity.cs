@@ -34,7 +34,6 @@ public class State_Gravity : State
     {
         if (collision.transform.CompareTag("Ground"))
         {
-            Debug.Log("Ground bulduk.");
             MyControllerManager.SetState(StateType.Walking);
         }
     }
@@ -118,24 +117,61 @@ public class State_Gravity : State
             }
             MyControllerManager.SetFloatAnimatiorLeg("DirX", Mathf.Abs(moveX));
             SetDirection(new Vector2(moveX, moveY) * myGravitySpeed);
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                // Jumpa geç
-                MyControllerManager.SetState(StateType.Jumping);
-                // Jumpla
-                State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
-                if (state_Jumping is not null)
-                {
-                    state_Jumping.SittingJump();
-                }
-            }
-            else if (Input.GetKeyUp(KeyCode.B))
-            {
-                // Bomb atacak
-                MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
-            }
+            //if (Input.GetKeyUp(KeyCode.Space))
+            //{
+            //    // Jumpa geç
+            //    MyControllerManager.SetState(StateType.Jumping);
+            //    // Jumpla
+            //    State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+            //    if (state_Jumping is not null)
+            //    {
+            //        state_Jumping.SittingJump();
+            //    }
+            //}
+            //else if (Input.GetKeyUp(KeyCode.B))
+            //{
+            //    // Bomb atacak
+            //    MyControllerManager.SetTriggerAnimatiorLeg("Bomb");
+            //}
         }
     }
+    #region Jump
+    public override void Jump()
+    {
+        //// Jumpa geç
+        //MyControllerManager.SetState(StateType.Jumping);
+        //// Jumpla
+        //State_Jumping state_Jumping = MyControllerManager.myState as State_Jumping;
+        //if (state_Jumping is not null)
+        //{
+        //    state_Jumping.SittingJump();
+        //}
+    }
+    #endregion
+
+    #region Dash
+    public override void Dash()
+    {
+        //SetIsDash(true);
+        //SetCanControl(false);
+        //SetDashTime(MyDashTime);
+        //MyControllerManager.SetGravity(0);
+        //if (transform.eulerAngles.y == 0)
+        //{
+        //    moveX = MyDashSpeed;
+        //}
+        //else
+        //{
+        //    moveX = -MyDashSpeed;
+        //}
+        //MyControllerManager.SetTriggerAnimatiorLeg("Dash");
+    }
+    public override void OnDashCoolDown()
+    {
+        //StateSpecial();
+    }
+    #endregion
+
     [ContextMenu("Ground Angle")]
     private void GroundAngle()
     {

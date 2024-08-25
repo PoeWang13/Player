@@ -9,7 +9,6 @@ public class State : MonoBehaviour
     [SerializeField] private StateType myStateType;
     [SerializeField] private Vector2 mySize;
     [SerializeField] private Vector2 myOffSet;
-    [SerializeField] private int animationLayer;
 
     [Header("Dash")]
     [SerializeField] private float myDashTime = 1;
@@ -43,8 +42,8 @@ public class State : MonoBehaviour
     #region Unity
     private void Awake()
     {
-        myControllerManager = GetComponent<Controller_Manager>();
         myRigidbody = GetComponent<Rigidbody2D>();
+        myControllerManager = GetComponent<Controller_Manager>();
         OnAwake();
     }
     public virtual void OnAwake()
@@ -88,8 +87,8 @@ public class State : MonoBehaviour
         isActive = true;
         Player_Controller.Instance.SetBoxColliderSize(mySize);
         Player_Controller.Instance.SetBoxColliderOffSet(myOffSet);
-        Player_Controller.Instance.SetIntegerAnimatiorBody("Layer", animationLayer);
-        Player_Controller.Instance.SetIntegerAnimatiorLeg("Layer", animationLayer);
+        Player_Controller.Instance.SetIntegerAnimatiorBody("Layer", (int)myStateType);
+        Player_Controller.Instance.SetIntegerAnimatiorLeg("Layer", (int)myStateType);
     }
     public virtual void StateSpecial()
     {
@@ -99,9 +98,6 @@ public class State : MonoBehaviour
         isActive = false;
     }
     public virtual void UpdateState()
-    {
-    }
-    public virtual void OnDashCoolDown()
     {
     }
     #endregion
@@ -142,6 +138,27 @@ public class State : MonoBehaviour
         {
             OnDashCoolDown();
         }
+    }
+    #endregion
+
+    #region Jump
+    public virtual void Jump()
+    {
+    }
+    #endregion
+
+    #region Dash
+    public virtual void Dash()
+    {
+    }
+    public virtual void OnDashCoolDown()
+    {
+    }
+    #endregion
+
+    #region Dropping
+    public virtual void Dropping()
+    {
     }
     #endregion
 }
