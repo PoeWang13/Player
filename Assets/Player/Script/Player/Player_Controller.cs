@@ -87,5 +87,6 @@ public class Player_Controller : Controller_Manager
             }
         }
     }
+    public float directZ = 1;
     #endregion
 }

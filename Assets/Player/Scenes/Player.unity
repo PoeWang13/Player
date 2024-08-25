@@ -3676,7 +3676,7 @@ Transform:
   m_GameObject: {fileID: 352346728}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.9, y: -4.47, z: 0}
+  m_LocalPosition: {x: 2.8, y: -4.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19166,16 +19166,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myState: {fileID: 0}
   allStates: []
-  myBombLimit: 50
+  knifeLimit: 2
   myFireTime: 0.5
   myBombTime: 0.5
+  myBombLimit: 50
   myBomb: {fileID: 3264916453419236113, guid: 2dcec6676fedcb84aa3ec498012aa6cc, type: 3}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 256
   myKnife: {fileID: 1894858626661774700, guid: 22161dc9c73d3d44ab14e8c9c7ba6d45, type: 3}
   myBullet: {fileID: 5756744689329546971, guid: aa520deecb8ce1b458923141a8567cab, type: 3}
   myBombPoint: {fileID: 1239934239}
+  myKnifePoint: {fileID: 1815621389}
   myBulletPoint: {fileID: 1063162057}
   allEnemiesLayerName:
   - Enemy
+  directZ: 1
 --- !u!114 &1496978047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22318,6 +22324,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1815621388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1815621389}
+  m_Layer: 0
+  m_Name: KnifePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1815621389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815621388}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 2, z: 0}
+  m_LocalScale: {x: 0.325, y: 0.325, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1904476855}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1818675920
 GameObject:
   m_ObjectHideFlags: 0
@@ -24055,6 +24092,7 @@ Transform:
   - {fileID: 1105002894}
   - {fileID: 884757933}
   - {fileID: 1063162057}
+  - {fileID: 1815621389}
   - {fileID: 1239934239}
   - {fileID: 1090434372}
   - {fileID: 1128017730}
