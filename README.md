@@ -1,50 +1,40 @@
-#Player
-
+# Player
 Player sistemidir. Player için hareket, ateş, bıçaklama ve bomba atma sistemleri vardır.
 
+# Ateş sistemleri
+F ile düşamana belli mesafeden uzaksak baktığımız yöne ateş edilir ama yakınsak bıçak çekilir. 
+B ile bomba atılır. 
 
-#Hareket sistemleri
-
-#Walking
-
+# Hareket sistemleri
+# Walking
 Ayakta yürüme sistemidir. C tuşu ile hızlı yürüme yapılabilinir. V ile Dash-Kayma yapılabilinir.
 
-#Sitting
-
+# Sitting
 Otururken yürüme sistemidir. V ile Slide-Kayma yapılabilinir.
 
-#Jumping
-
+# Jumping
 Zıplama sistemidir. V ile Dash yapılabilinir.
 
-#Falling
-
+# Falling
 Düşme sistemidir. V ile Dash yapılabilinir.
 
-#Gravity
-
+# Gravity
 Değişik açılardaki yerçekimi sistemidir. Sistem şu anda aktif değildir çünkü 20 derecelik eğimde düzgün çalışmasına rağmen 40 derecelik eğime geçerken sistem sapıtmaktadır.
 
-#Roping Right
-
+# Roping Right
 İpte sağdan bakış açısı ile ilerleme sistemidir. 
 
-#Roping Up
-
+# Roping Up
 İpte yukarı doğru çıkarken sırttan bakış açısı ile ilerleme sistemidir. V ile Dash yapılabilinir.
 
-#Spacing Right
-
+# Spacing Right
 Uzayda sağa doğru ilerlerken, sağdan bakış açısı ile ilerleme sistemidir. V ile Dash yapılabilinir.
 
-#Spacing Up
-
+# Spacing Up
 Uzayda ileri doğru çıkarken sırttan bakış açısı ile ilerleme sistemidir. V ile Dash yapılabilinir.
 
-#Walling Right
-
+# Walling Right
 Duvarda yukarı doğru tırmanırken sağdan bakış açısı ile ilerleme sistemidir. V ile Dash yapılabilinir.
 
-#Walling Up
-
+# Walling Up
 Duvarda veya dağda yukarı doğru çıkarken sırttan bakış açısı ile ilerleme sistemidir. V ile Dash yapılabilinir.
