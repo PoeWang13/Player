@@ -52,7 +52,7 @@ public class Controller_Manager : MonoBehaviour
     [SerializeField] private int myBombLimit = 1;
 
     [SerializeField] private Bomb myBomb;
-    [SerializeField] private LayerMask enemyMask;
+    //[SerializeField] private LayerMask enemyMask;
     [SerializeField] private Knife myKnife;
     [SerializeField] private Bullet myBullet;
     [SerializeField] private Transform myBombPoint;
@@ -62,7 +62,7 @@ public class Controller_Manager : MonoBehaviour
     [SerializeField] private List<string> allEnemiesLayerName = new List<string>();
 
     private int grondMask;
-    //private int enemyMask;
+    private int enemyMask;
     private Transform myPlayerView;
     private Animator myAnimatorLeg;
     private Animator myAnimatorBody;
@@ -79,7 +79,7 @@ public class Controller_Manager : MonoBehaviour
     private void Awake()
     {
         grondMask = LayerMask.GetMask("Ground");
-        //enemyMask = LayerMask.GetMask(allEnemiesLayerName.ToArray());
+        enemyMask = LayerMask.GetMask(allEnemiesLayerName.ToArray());
         myPlayerView = transform.Find("PlayerView");
         myAnimatorLeg = myPlayerView.Find("PlayerLegView").GetComponent<Animator>();
         myAnimatorBody = myPlayerView.Find("PlayerBodyView").GetComponent<Animator>();
